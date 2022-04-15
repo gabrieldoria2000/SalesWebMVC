@@ -15,6 +15,10 @@ namespace SalesWebMVC.Data
         {
         }
 
-        public DbSet<SalesWebMVC.Models.Department> Department { get; set; }
+        //apaguei SalesWebMVC.Models.Department - não precisa
+        public DbSet<Department> Department { get; set; }
+        public DbSet<Seller> Seller { get; set; }
+        public DbSet<SalesRecord> SalesRecords { get; set; }
+
     }
 }

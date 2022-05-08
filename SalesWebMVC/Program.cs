@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SalesWebMVC.Data;
+using SalesWebMVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,8 @@ builder.Services.AddControllersWithViews();
 
 //registra o nosso serviço no sistema de injeção de dependência da aplicação
 //builder.Services.AddScoped<SeedingService>();
+
+builder.Services.AddScoped<SellerService>();
 
 var app = builder.Build();
 

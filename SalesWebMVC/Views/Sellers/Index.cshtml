@@ -7,9 +7,14 @@
 
 <h2>@ViewData["Title"]</h2>
 
-<table class="d-xl-table">
+<p>
+
+<a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<table class=" table d-xl-table">
     <thead>
-        <tr class="d-xl-table-row" >
+        <tr>
             <th>
                @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -30,8 +35,8 @@
     <tbody>
         @foreach(var item in Model)
         {
-          <tr class="d-lg-table-row" >
-              <td class ="d-xl-table-cell" >
+          <tr >
+              <td >
                   @Html.DisplayFor(modelitem => item.Name)
               </td>
                <td >

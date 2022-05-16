@@ -28,7 +28,7 @@ namespace SalesWebMVC.Controllers
             var viewmodel = new SellerFormViewModel { Departments = departments };
             return View(viewmodel);
         }
-        
+
         //Esse ANOTATION validate é pra previnir que alguem use codigos maliciosos aproveitando a sua autenticação
         //e esse ANOTATION httppost é pra indicar que isso é uma ação de post e não de GET
         [HttpPost]
@@ -38,6 +38,46 @@ namespace SalesWebMVC.Controllers
             _sellerService.Insert(seller);
             return RedirectToAction("Index");
 
+        }
+
+        public IActionResult Delete(int? Id)
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = _sellerService.FindById(Id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int Id)
+        {
+            _sellerService.Remove(Id);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Details(int? Id)
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = _sellerService.FindById(Id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
         }
     }
 }

@@ -15,38 +15,72 @@ namespace SalesWebMVC.Services
             _context = context;
         }
 
-        public List<Seller> FindAll()
+        //public List<Seller> FindAll()
+        // {
+        //     return _context.Seller.ToList();
+        // }
+        public async Task<List<Seller>> FindAllAsync()
         {
-            return _context.Seller.ToList();
+            return await _context.Seller.ToListAsync();
         }
 
-        public void Insert(Seller obj)
+
+        //public void Insert(Seller obj)
+        //{
+        //    //obj.Department = _context.Department.First();
+        //    _context.Add(obj);
+        //    _context.SaveChanges();
+        //}
+
+        //Insert assincrono!
+        public async Task InsertAsync(Seller obj)
         {
             //obj.Department = _context.Department.First();
             _context.Add(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Seller FindById(int Id)
-        {
-            //return  _context.Seller.FirstOrDefault(x => x.Id == Id);
-            // para usar o INCLUDE adicionar o using Microsfot.EntityFramework
-            // É ASSIM QUE FAZ O JOIN!!!! :)
-            return _context.Seller.Include(obj => obj.Department).FirstOrDefault(x => x.Id == Id);
-        }
 
-        public void Remove(int Id)
+        // public Seller FindById(int Id)
+        // {
+        //     //return  _context.Seller.FirstOrDefault(x => x.Id == Id);
+        // para usar o INCLUDE adicionar o using Microsfot.EntityFramework
+        // É ASSIM QUE FAZ O JOIN!!!! :)
+        //   return _context.Seller.Include(obj => obj.Department).FirstOrDefault(x => x.Id == Id);
+        // }
+
+        //metodo assincrono
+        public async Task<Seller> FindByIdAsync(int Id)
+         {
+        //     //return  _context.Seller.FirstOrDefault(x => x.Id == Id);
+        // para usar o INCLUDE adicionar o using Microsfot.EntityFramework
+        // É ASSIM QUE FAZ O JOIN!!!! :)
+           return await _context.Seller.Include(obj => obj.Department).FirstOrDefaultAsync(x => x.Id == Id);
+         }
+
+        //public void Remove(int Id)
+       // {
+        //    var obj = _context.Seller.Find(Id);
+        //    _context.Seller.Remove(obj);
+            //removeu do DbSet
+        //    _context.SaveChanges();
+
+       // }
+
+        //REMOVE assincrono
+        public async Task RemoveAsync(int Id)
         {
-            var obj = _context.Seller.Find(Id);
+            var obj = await _context.Seller.FindAsync(Id);
             _context.Seller.Remove(obj);
             //removeu do DbSet
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
         }
 
-        public void Update(Seller obj)
+        public async Task UpdateAsync(Seller obj)
         {
-            if (!_context.Seller.Any(x => x.Id == obj.Id))
+            bool hasAny = await _context.Seller.AnyAsync(x => x.Id == obj.Id);
+            if (!hasAny)
             {
                 //Se não existir nenhum vendedor com o mesmo ID que foi passado
                 throw new NotFoundExceptions("ID not Found!");
@@ -55,7 +89,7 @@ namespace SalesWebMVC.Services
             try
             {
                 _context.Update(obj);
-                _context.SaveChanges();
+               await _context.SaveChangesAsync();
             }
             catch(DbUpdateConcurrencyException ex)
             {

@@ -54,7 +54,7 @@ namespace SalesWebMVC.Controllers
         {
             // ATENÇÃO!!! Validação no Servidor (caso o usuario esteja com o javascript desabilitado!!!!
             if (!ModelState.IsValid)
-            {
+            { 
                 //carrega novamente o ViewModel de vendedor
                 var departments = await _departmentService.FindAllAsync();
                 var viewmodel = new SellerFormViewModel { Seller = seller, Departments = departments };
